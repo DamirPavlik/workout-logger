@@ -1,0 +1,15 @@
+{
+    "name": "damir/workout-logger",
+    "autoload": {
+        "psr-4": {
+            "app\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "DamirPavlik",
+            "email": "damir.pavlik@gmail.com"
+        }
+    ],
+    "require": {}
+}
