@@ -5,22 +5,19 @@ namespace app\Models;
 use app\Repositories\AuthRepo;
 use app\Support\Session;
 
-class AuthModel
+readonly class AuthModel
 {
-    public function __construct(private readonly AuthRepo $authRepo = new AuthRepo()) {}
+    public function __construct(private AuthRepo $authRepo = new AuthRepo()) {}
 
     public function register(array $formData): void
     {
-        if ($this->authRepo->userExists($formData['email'])) {
-            return;
-        }
         $userId = $this->authRepo->insertUser($formData);
         Session::userLogin($userId);
     }
 
     public function login(string $email, string $password): bool
     {
-        if ($this->authRepo->userExists($email)) return false;
+        if (!$this->authRepo->userExists($email)) return false;
 
         $user = $this->authRepo->loginUser($email);
 
