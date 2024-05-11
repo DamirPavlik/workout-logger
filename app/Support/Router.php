@@ -1,5 +1,7 @@
 <?php
 
+namespace app\Support;
+
 class Router
 {
     protected array $handlers;
@@ -9,12 +11,12 @@ class Router
 
     public function get(string $path, $handler): void
     {
-        $this->addHandler(self::METHOD_GET, $path, $handler);
+        $this->addHandler(method: self::METHOD_GET, path: $path, handler: $handler);
     }
 
     public function post(string $path, $handler): void
     {
-        $this->addHandler(self::METHOD_POST, $path, $handler);
+        $this->addHandler(method: self::METHOD_POST, path: $path, handler: $handler);
     }
 
     private function addHandler(string $method, string $path, $handler): void
@@ -35,7 +37,7 @@ class Router
     {
         $requestUri = parse_url($_SERVER['REQUEST_URI']);
         $requestPath = $requestUri['path'];
-        $method = $_SERVER["REQUEST_METHOD"];
+        $method = $_SERVER['REQUEST_METHOD'];
 
         $callback = $this->findHandler($requestPath, $method);
 
@@ -52,7 +54,7 @@ class Router
         foreach ($this->handlers as $handler) {
             if ($handler['path'] === $requestPath && $handler['method'] === $method) {
                 if(is_string($handler['handler'])) {
-                    [$className, $method] = explode(separator: "::", string:$handler['handler']);
+                    [$className, $method] = explode(separator: "::", string: $handler['handler']);
                     $handler['handler'] = [new $className, $method];
                 }
                 return $handler['handler'];
