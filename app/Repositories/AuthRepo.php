@@ -17,7 +17,7 @@ class AuthRepo extends BaseRepository
         return $stmt->insert_id;
     }
 
-    public function getUserByEmail(string $email)
+    public function getUserByEmail(string $email): false | \mysqli_result
     {
         $stmt = $this->dbConnection->prepare("SELECT * FROM users WHERE email = ?");
         $stmt->bind_param("s", $email);
