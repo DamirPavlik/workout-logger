@@ -6,7 +6,7 @@ use database\Database;
 
 class BaseRepository
 {
-    protected $dbConnection;
+    protected \mysqli $dbConnection;
 
     public function __construct()
     {
