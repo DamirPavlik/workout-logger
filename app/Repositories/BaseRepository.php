@@ -35,7 +35,6 @@ class BaseRepository
         if (!$stmt) {
             throw new Exception(message: "Failed to prepare query: " . $this->dbConnection->error);
         }
-
         $bindParams = array_merge([$types], $params);
         $ref = new ReflectionClass(objectOrClass: 'mysqli_stmt');
         $method = $ref->getMethod(name: 'bind_param');
@@ -49,7 +48,7 @@ class BaseRepository
         return null;
     }
 
-    private function refValues(array $arr): array
+    private static function refValues(array $arr): array
     {
         $refs = [];
         foreach ($arr as $key => $value) {
