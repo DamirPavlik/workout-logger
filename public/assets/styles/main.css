@@ -1,0 +1,179 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+* {
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-dark-color: #22272e;
+    --primary-light-color: #c5d1de;
+
+    --input-border: #444c56;
+    --input-bg: #2d333b;
+
+    --button-bg: #373e47;
+
+    --link: #478be6;
+
+    --danger-color: #e5534b;
+
+    --success-color: #3fb950;
+    --success-border: #238636;
+}
+
+body {
+    background: var(--primary-dark-color) !important;
+    color: var(--primary-light-color) !important;
+    font-weight: normal !important;
+}
+
+.pb-100 {
+    padding-bottom: 100px;
+}
+
+.authContainer {
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.authBox {
+    width: 700px;
+}
+
+.authBox form label {
+    display: block;
+}
+
+.authBox form input {
+    width: 100%;
+    border: 1px solid var(--input-border);
+    background: var(--input-bg);
+    border-radius: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-bottom: 16px;
+    color: var(--primary-light-color) !important;
+}
+
+.authBox form input:focus {
+    outline: 1px solid var(--input-border);
+}
+
+.styledInput {
+    width: 100%;
+    border: 1px solid var(--input-border);
+    background: var(--input-bg);
+    border-radius: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-bottom: 16px;
+    color: var(--primary-light-color) !important;
+}
+
+.styledInput:focus {
+    outline: 1px solid var(--input-border);
+}
+
+.container-small {
+    width: 650px;
+    max-width: 650px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.link {
+    color: var(--link);
+    text-decoration: underline;
+}
+
+.btn {
+    width: 100%;
+    padding-top: 6px;
+    padding-bottom: 5px;
+    color: var(--primary-light-color) !important;
+    background: var(--button-bg) !important;
+    border-radius: 5px;
+    border: 1px solid var(--input-border) !important;
+    outline: none;
+}
+
+.btn-remove {
+    width: 100%;
+    padding-top: 6px;
+    padding-bottom: 5px;
+    background: var(--button-bg) !important;
+    border-radius: 5px;
+    border: 1px solid var(--danger-color) !important;
+    color: var(--danger-color) !important;
+    outline: none;
+}
+
+.btn-success {
+    width: 100%;
+    padding-top: 6px;
+    padding-bottom: 5px;
+    background: var(--button-bg) !important;
+    border-radius: 5px;
+    border: 1px solid var(--success-color) !important;
+    color: var(--success-color) !important;
+    outline: none;
+}
+
+.w-30 {
+    width: 30% !important;
+}
+
+.title a {
+    color: var(--primary-light-color) !important;
+    text-decoration: none;
+}
+
+.workoutCard {
+    border-radius: 10px;
+    border: 2px solid var(--input-border);
+    padding: 20px 20px;
+    margin-bottom: 24px;
+}
+
+.logDialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+}
+
+.logDialog .closeButton {
+    background: transparent;
+    font-size: 18px;
+    margin-bottom: 20px;
+    border: none;
+    outline: none;
+    transform: scaleX(1.5);
+}
+
+.logDialog th, .logDialog td {
+    border: 1px solid black;
+    padding: 10px 15px;
+}
+
+.btn .btn-danger {
+    border: 1px solid var(--danger-color) !important;
+}
+
+.logDialog .editLog {
+
+}
+
+.logDialog::backdrop {
+    background: black;
+    opacity: 0.75;
+}
