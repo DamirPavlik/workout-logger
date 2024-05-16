@@ -47,7 +47,12 @@ class AuthController extends BaseController
         }
 
         unset($_SESSION['loginFormData']);
-        $this->authModel->login(email: $params['email'], password: $params['password']);
+        $login = $this->authModel->login(email: $params['email'], password: $params['password']);
+        if (!$login) {
+            $_SESSION['validationErrors'] = ["password" => "User does not exist"] ;
+            $this->redirect(path: '/login');
+
+        }
         $this->redirect(path: '/');
     }
 }
