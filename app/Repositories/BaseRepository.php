@@ -6,7 +6,6 @@ use database\Database;
 use Exception;
 use mysqli_stmt;
 use ReflectionClass;
-use ReflectionException;
 
 class BaseRepository
 {
