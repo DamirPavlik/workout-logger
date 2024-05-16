@@ -7,22 +7,16 @@ class AuthRepo extends BaseRepository
     public function insertUser(array $formData): int
     {
         $password = password_hash(password: $formData['password'], algo: PASSWORD_DEFAULT);
-        $email = $this->dbConnection->real_escape_string($formData["email"]);
-        $username = $this->dbConnection->real_escape_string($formData["username"]);
+        $email = $this->sanitizeInput($formData["email"]);
+        $username = $this->sanitizeInput($formData["username"]);
 
-        $stmt = $this->dbConnection->prepare("INSERT INTO users (email, password, username) VALUES (?, ?, ?)");
-        $stmt->bind_param('sss', $email, $password, $username);
-        $stmt->execute();
-
+        $stmt = $this->prepareAndExecuteQuery(query: "INSERT INTO users (email, password, username) VALUES (?, ?, ?)", types: 'sss', params: [$email, $password, $username], shouldReturn: true);
         return $stmt->insert_id;
     }
 
     public function getUserByEmail(string $email): false | \mysqli_result
     {
-        $stmt = $this->dbConnection->prepare("SELECT * FROM users WHERE email = ?");
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-
+        $stmt = $this->prepareAndExecuteQuery(query: "SELECT * FROM users WHERE email = ?", types: "s", params: [$email], shouldReturn: true);
         return $stmt->get_result();
     }
 
