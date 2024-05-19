@@ -8,4 +8,4 @@
 
 👉 MVC structure.
 
-👉 You can see if you hit a new PR.
+👉 User can see if he hit a PR.
