@@ -2,11 +2,12 @@
 
 namespace database;
 
+use app\Interfaces\DatabaseInterface;
 use Dotenv\Dotenv;
 
 require __DIR__.'/../vendor/autoload.php';
 
-class Database
+class Database implements DatabaseInterface
 {
     private $connection;
 
