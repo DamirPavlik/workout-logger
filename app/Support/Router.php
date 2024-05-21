@@ -2,7 +2,9 @@
 
 namespace app\Support;
 
-class Router
+use app\Interfaces\RouterInterface;
+
+class Router implements RouterInterface
 {
     protected array $handlers;
     private $notFoundHandler;
