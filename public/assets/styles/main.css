@@ -177,3 +177,11 @@ body {
     background: black;
     opacity: 0.75;
 }
+
+.colorSchemeDark {
+    color-scheme: dark;
+}
+
+.noResize {
+    resize: none;
+}
