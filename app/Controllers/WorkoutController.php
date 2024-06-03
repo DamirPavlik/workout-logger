@@ -78,7 +78,7 @@ class WorkoutController extends BaseController
         $this->redirect(path: '/workout-day?workout_day_id=' . $params['workoutDayId']);
     }
 
-    public function handleRemoveExercise(array $params = []): void
+    public function handleRemoveWorkoutDay(array $params = []): void
     {
         $this->workoutRepo->removeWorkoutDay(workoutDayId: $params['workoutDayId']);
         $this->redirect(path: '/workout-plan?workout_plan_id=' . $params['workoutPlanId']);
@@ -98,5 +98,50 @@ class WorkoutController extends BaseController
     public function getWorkoutDayById(int $workoutDayId): array
     {
         return $this->workoutRepo->getWorkoutDayById($workoutDayId);
+    }
+
+    public function handleAddLog(array $params = []): void
+    {
+        $this->workoutRepo->insertLog($params);
+
+        $hasUserHitAPr = $this->workoutModel->hasUserHitAPR($params);
+        if ($hasUserHitAPr) {
+            $_SESSION['userPR'] = "You hit a pr";
+        }
+
+        $this->redirect('/workout-day?workout_day_id=' . $params['workoutDayId']);
+    }
+
+    public function getAllLogsByExerciseId(int $exerciseId): array
+    {
+        return $this->workoutRepo->getAllLogsByExerciseId($exerciseId);
+    }
+
+    public function handleEditWorkoutDay(array $params = []): void
+    {
+        if (empty($params['workoutDayTitle'])) {
+            $_SESSION['editWorkoutDayErrors'] = 'Title can not be empty';
+            $this->redirect('/workout-plan?workout_plan_id=' . $params['workoutPlanId']);
+        }
+        $this->workoutRepo->editWorkoutDayTitle(formData: $params);
+        $this->redirect('/workout-plan?workout_plan_id=' . $params['workoutPlanId']);
+    }
+
+    public function handleEditExercise(array $params = []): void
+    {
+        $this->workoutRepo->editExercise(formData: $params);
+        $this->redirect(path: "/workout-day?workout_day_id=" . $params['workoutDayId']);
+    }
+
+    public function handleRemoveLog(array $formData): void
+    {
+        $this->workoutRepo->removeLogById(logId: $formData['logId']);
+        $this->redirect(path: "/workout-day?workout_day_id=" . $formData['workoutDayId']);
+    }
+
+    public function handleRemoveExercise(array $formData): void
+    {
+        $this->workoutRepo->removeExercise(exerciseId: $formData['exerciseId']);
+        $this->redirect(path: "/workout-day?workout_day_id=" . $formData['workoutDayId']);
     }
 }
