@@ -23,4 +23,39 @@ readonly class WorkoutModel
     {
         $this->workoutRepo->insertExercise(formData: $formData);
     }
+
+    public function hasUserHitAPR(array $formData): bool
+    {
+        $results = $this->workoutRepo->getLogByExerciseId($formData['exerciseId']);
+
+        if (empty($results)) {
+            return false;
+        }
+
+        $latestResult = array_reduce(
+            array: $results, callback:
+            fn($carry, $item) => (!$carry || strtotime($item['date']) > strtotime($carry['created_at'])) ? $item : $carry
+        );
+
+        $repsFromFormData = array_map(callback: 'trim', array: explode(separator: ',', string: $formData['reps']));
+        $repsFromResults = array_map(callback: 'trim', array: explode(separator: ',', string: $latestResult['reps']));
+
+        if (count($repsFromResults) !== count($repsFromFormData)) {
+            return false;
+        }
+
+        if ($latestResult['weight'] === $formData['weight']) {
+            foreach ($repsFromFormData as $index => $rep) {
+                if ($rep > $repsFromResults[$index]) {
+                    return true;
+                }
+            }
+        }
+
+        if ($latestResult['weight'] < $formData['weight']) {
+            return true;
+        }
+
+        return false;
+    }
 }
