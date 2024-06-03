@@ -81,4 +81,57 @@ class WorkoutRepo extends BaseRepository
 
         $this->dbConnection->commit();
     }
+
+    public function insertLog(array $formData): void
+    {
+        $sets = $this->sanitizeInput(input: $formData['sets']);
+        $reps = $this->sanitizeInput(input: $formData['reps']);
+        $weight = $this->sanitizeInput(input: $formData['weight']);
+        $date = $formData['date'];
+        $currentDate = date('Y-m-d', strtotime($date));
+
+        $this->prepareAndExecuteQuery(
+            query: "INSERT INTO workout_logs (sets, reps, weight, exercise_id, created_at) VALUES (?, ?, ?, ?, ?)",
+            types: "issis",
+            params: [$sets, $reps, $weight, $formData['exercise'], $currentDate],
+            shouldReturn: false
+        );
+    }
+
+    public function editWorkoutDayTitle(array $formData): void
+    {
+        $title = $this->sanitizeInput(input: $formData['workoutDayTitle']);
+        $this->prepareAndExecuteQuery(query: "UPDATE workout_day SET title = ? WHERE id = ?", types: "si", params: [$title, $formData['workoutDayId']], shouldReturn: false);
+    }
+
+    public function editExercise(array $formData)
+    {
+        $title = $this->sanitizeInput(input: $formData['exerciseTitle']);
+        $this->prepareAndExecuteQuery(query: "UPDATE exercise SET title = ? WHERE id = ?" , types: "si", params: [$title, $formData['exerciseId']], shouldReturn: false);
+    }
+
+    public function getAllLogsByExerciseId(int $exerciseId): ?array
+    {
+        return $this->queryAndFetchAll(query: "SELECT * FROM workout_logs WHERE exercise_id = $exerciseId");
+    }
+
+    public function removeLogById(int $logId): void
+    {
+        $this->prepareAndExecuteQuery(query: "DELETE FROM workout_logs WHERE id = ?", types: "i", params: [$logId], shouldReturn: false);
+    }
+
+    public function removeExercise(int $exerciseId): void
+    {
+        $this->dbConnection->begin_transaction();
+
+        $this->prepareAndExecuteQuery(query: "DELETE FROM workout_logs WHERE exercise_id = ?", types: "i", params: [$exerciseId], shouldReturn: false);
+        $this->prepareAndExecuteQuery(query: "DELETE FROM exercise WHERE id = ?", types: "i", params: [$exerciseId], shouldReturn: false);
+
+        $this->dbConnection->commit();
+    }
+
+    public function getLogByExerciseId(int $exerciseId): ?array
+    {
+       return $this->queryAndFetchAll(query: "SELECT * FROM workout_logs WHERE exercise_id = $exerciseId");
+    }
 }
